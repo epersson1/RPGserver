@@ -7,6 +7,7 @@ Items are made using the Mythic Mobs plugin framework. All items that can be cre
 
 Here is an explanation of the different fields an item can have.
 
+```
 ItemName: Required. Camelcase name for the item used as ID.
 
   Id: The base minecraft item, e.g. IRON_SWORD.
@@ -51,3 +52,4 @@ ItemName: Required. Camelcase name for the item used as ID.
     Color: probably for like leather dying?
 
     Unbreakable: True/False. Default is false. If true, item doesn't take damage 
+    ```
