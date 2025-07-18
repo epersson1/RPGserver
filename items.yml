@@ -299,22 +299,19 @@ AdamGownofHeavensGrace:
 AdamHelmetNether:
   Attributes:
     Head:
-      Armor: 60
-      ArmorToughness: 61
+      Armor: '60.0'
+      ArmorToughness: '61.0'
       AttackSpeed: +36%
-      Damage: 19
-      Health: -5
+      Damage: '19.0'
+      Health: '-5.0'
       KnockbackResistance: +9%
       MovementSpeed: -13%
   Display: '&5&lHelm of the Firey Fall'
   Enchantments:
-  - PROTECTION_ENVIRONMENTAL:62
-  - THORNS:1
-  - PROTECTION_FIRE:22
-  - PROTECTION_PROJECTILE:28
+  - PROTECTION_ENVIRONMENTAL:62, THORNS:1, PROTECTION_FIRE:22, PROTECTION_PROJECTILE:28
   Id: DIAMOND_HELMET
   Lore:
-  - ''
+  - Added some lore...
   - '&9[Nether]'
   - '&9[Armor, Helmet]'
   Options:

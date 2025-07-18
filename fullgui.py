@@ -4,51 +4,52 @@ import pandas as pd
 import yaml
 import os
 
-df = pd.read_csv('items_parsed.csv')
+TEMPLATES_FILE = 'items_parsed.csv'
 
+# read in the csv of items to use as templates
+df = pd.read_csv(TEMPLATES_FILE)
+
+
+# === Function to show start screen w/ template or new item choice ===
 def show_start_screen():
+    # destroy all previously existing screens
     for widget in root.winfo_children():
         widget.destroy()
 
+    # Label, Dropdown, and Button for Template 
     tk.Label(root, text="Select an existing item:").grid(row=0, column=0, pady=10, padx=10)
-
     selected_item.set(item_names[0])
     dropdown = ttk.OptionMenu(root, selected_item, item_names[0], *item_names)
     dropdown.grid(row=0, column=1)
-
     use_template_btn = tk.Button(root, text="Use Template", command=use_template)
     use_template_btn.grid(row=1, column=0, pady=10)
 
+    # Button for a brand new item
     new_item_btn = tk.Button(root, text="Create New Item", command=create_new)
     new_item_btn.grid(row=1, column=1)
 
-# === Logic to load template or blank ===
+# === Helper functions to choose correct version of item screen (prefilled or not) ===
 def use_template():
-    print("Called use_template")
     item_name = selected_item.get()
     row = df[df['ItemName'] == item_name].iloc[0]
     root.show_item_screen(row)
-
 def create_new():
     print("Called create_new")
     root.show_item_screen()
 
-# Constants for slots and stats
+# === Sets up root to contain the show_item_screen and save_item methods. ===
 def setup_item_gui(root):
-    print("setting up item gui")
-
     # Define slots and stats at module scope
     root.SLOTS = ["MainHand", "OffHand", "Head", "Chest", "Legs", "Feet"]
     root.STATS = ["Armor", "ArmorToughness", "KnockbackResistance",
                   "Health", "AttackSpeed", "MovementSpeed", "Damage", "Luck"]
+    
     # Storage for dynamic widgets
     root.slot_vars = {}
     root.slot_frames = {}
-    root.slot_entries = {}
+    root.slot_entries = {}    
 
-    # scrollable
-    
-
+    # === Function which creates the item gui ===
     def show_item_screen(template_data=None):
         # Clear existing widgets
         for widget in root.winfo_children():
@@ -61,18 +62,20 @@ def setup_item_gui(root):
             ("Data (optional):", "data_entry", tk.Entry, "Data"),
             ("Display Name:", "display_entry", tk.Entry, "Display"),
             ("Lore (multi-line):", "lore_text", tk.Text, "Lore"),
-            ("Enchantments (line per enchantment):", "enchantments_text", tk.Text, "Enchantments"),
+            ("Enchantments (one line per enchantment):", "enchantments_text", tk.Text, "Enchantments"),
             ("Unbreakable?", "unbreakable_var", tk.BooleanVar, "Option_Unbreakable"),
             ("Color (optional, RGB hex):", "color_entry", tk.Entry, "Option_Color"),
         ]
 
+        # Create entry boxes for each field
         row_index = 0
         for label_text, attr_name, widget_type, col_name in fields:
+            # Create label
             tk.Label(root, text=label_text).grid(
                 row=row_index, column=0,
                 sticky='e' if widget_type in (tk.Entry, tk.BooleanVar) else 'ne'
             )
-            # instantiate
+            # instantiate entry box
             if widget_type is tk.Text:
                 widget = tk.Text(root, width=40, height=4)
                 widget.grid(row=row_index, column=1, sticky='w')
@@ -226,7 +229,6 @@ def setup_item_gui(root):
     root.toggle_slot_frame = toggle_slot_frame
 
 
-# Example usage when creating your application:
 if __name__ == '__main__':
     root = tk.Tk()
     root.title("RPG Item Creator")
