@@ -1,11 +1,24 @@
-AAATestItem:
-  Data: 0
-  Display: ''
-  Enchantments: []
-  Id: ''
-  Lore: []
+AAATEST:
+  Attributes:
+    MainHand:
+      Armor: '1'
+      ArmorToughness: '2'
+      AttackSpeed: '5'
+      Damage: '7'
+      Health: '4'
+      KnockbackResistance: '3'
+      Luck: '8'
+      MovementSpeed: '6'
+  Data: 1
+  Display: A Test Item
+  Enchantments:
+  - DAMAGE:74, KNOCKBACK:15
+  Id: IRON_SWORD
+  Lore:
+  - Lots of Lore...
+  - '[Brawler, Melee]'
   Options:
-    Color: ''
+    Color: (155,155,155)
     Unbreakable: true
 AJBonesoftheLiving:
   Attributes:

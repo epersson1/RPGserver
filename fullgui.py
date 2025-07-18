@@ -47,27 +47,7 @@ def setup_item_gui(root):
     root.slot_entries = {}
 
     # scrollable
-    # 1. Create canvas + scrollbar
-    canvas = tk.Canvas(root.item_frame)
-    scrollbar = ttk.Scrollbar(root.item_frame, orient="vertical", command=canvas.yview)
-    scrollable_frame = ttk.Frame(canvas)
-
-    # 2. Configure scrollable area
-    scrollable_frame.bind(
-        "<Configure>",
-        lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
-    )
-
-    canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
-    canvas.configure(yscrollcommand=scrollbar.set)
-
-    # 3. Place canvas + scrollbar in layout
-    canvas.pack(side="left", fill="both", expand=True)
-    scrollbar.pack(side="right", fill="y")
-
-    # 4. Replace references: mount your GUI into scrollable_frame
-    root.item_content_frame = scrollable_frame  # use this instead of root.item_frame in your GUI creation
-
+    
 
     def show_item_screen(template_data=None):
         # Clear existing widgets
@@ -88,24 +68,24 @@ def setup_item_gui(root):
 
         row_index = 0
         for label_text, attr_name, widget_type, col_name in fields:
-            tk.Label(root.item_content_frame, text=label_text).grid(
+            tk.Label(root, text=label_text).grid(
                 row=row_index, column=0,
                 sticky='e' if widget_type in (tk.Entry, tk.BooleanVar) else 'ne'
             )
             # instantiate
             if widget_type is tk.Text:
-                widget = tk.Text(root.item_content_frame, width=40, height=4)
+                widget = tk.Text(root, width=40, height=4)
                 widget.grid(row=row_index, column=1, sticky='w')
             elif widget_type is tk.BooleanVar:
                 var = tk.BooleanVar(value=False)
-                chk = tk.Checkbutton(root.item_content_frame, variable=var)
+                chk = tk.Checkbutton(root, variable=var)
                 chk.grid(row=row_index, column=1, sticky='w')
                 widget = var
             else:
-                widget = widget_type(root.item_content_frame, width=40)
+                widget = widget_type(root, width=40)
                 widget.grid(row=row_index, column=1, sticky='w')
 
-            setattr(root.item_content_frame, attr_name, widget)
+            setattr(root, attr_name, widget)
             # populate if template provided
             if template_data is not None:
                 val = template_data.get(col_name) if isinstance(template_data, dict) else template_data[col_name]
@@ -118,7 +98,7 @@ def setup_item_gui(root):
             row_index += 1
 
         # Divider label
-        tk.Label(root.item_content_frame, text="Equipment Slot Effects:", font=('Arial', 12, 'underline')).grid(
+        tk.Label(root, text="Equipment Slot Effects:", font=('Arial', 12, 'underline')).grid(
             row=row_index, column=0, columnspan=2, pady=(10, 5)
         )
         row_index += 1
@@ -126,14 +106,14 @@ def setup_item_gui(root):
         # --- Per-Slot Configurations ---
         for slot in root.SLOTS:
             var = tk.BooleanVar(value=False)
-            root.item_content_frame.slot_vars[slot] = var
+            root.slot_vars[slot] = var
             chk = tk.Checkbutton(
-                root.item_content_frame, text=slot, variable=var,
+                root, text=slot, variable=var,
                 command=lambda s=slot: toggle_slot_frame(s)
             )
             chk.grid(row=row_index, column=0, sticky='w', padx=(10,0))
 
-            frame = tk.Frame(root.item_content_frame, relief='groove', bd=1)
+            frame = tk.Frame(root, relief='groove', bd=1)
             root.slot_frames[slot] = frame
             for si, stat in enumerate(root.STATS):
                 tk.Label(frame, text=f"{stat}:").grid(row=si, column=0, sticky='e')
@@ -182,7 +162,7 @@ def setup_item_gui(root):
             if root.data_entry.get():
                 item_data['Data'] = int(root.data_entry.get())
             
-            if len(root.enchantments_text):
+            if root.enchantments_text:
                 item_data['Enchantments'] = get_text_lines(root.enchantments_text)
 
             if root.unbreakable_var.get():
