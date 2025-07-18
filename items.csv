@@ -1,0 +1,3 @@
+Name,Id,Data,Display,Lore,Enchantments,AttackSpeed,Health,MovementSpeed,Armor,ArmorToughness,Damage
+ReapandSowPurple,IRON_SWORD,0,&5&lReap and Sow,"|&9Heals you over time.| |&9[Aishan]|&9[Melee, Sword]","DURABILITY:15|DAMAGE_ALL:15|DAMAGE_UNDEAD:12|SWEEPING_EDGE:10",-25%,+12,+10%,+10,+10,+15
+
