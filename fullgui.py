@@ -213,6 +213,7 @@ def setup_item_gui(root):
                 yaml.dump(existing, f, sort_keys=True)
 
             messagebox.showinfo("Saved", f"Item '{name}' saved to {filename}!")
+            show_start_screen()
 
         except Exception as e:
             messagebox.showerror("Save Failed", f"An error occurred while saving:\n{str(e)}")

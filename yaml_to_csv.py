@@ -64,7 +64,7 @@ def main():
         # Enchantments as a list, then join as "Enchant:Level" strings
         enchants = parse_enchantments(item_data.get("Enchantments"))
         if enchants:
-            row["Enchantments"] = ", ".join(f"{k}:{v}" for k,v in enchants.items())
+            row["Enchantments"] = "\n".join(f"{k}:{v}" for k,v in enchants.items())
         else:
             row["Enchantments"] = None
 
